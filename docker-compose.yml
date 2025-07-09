@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  spark_jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pyspark_dev_env
+    ports:
+      - "8888:8888" # Jupyter Notebook
+      - "4040:4040" # Spark UI for local[*] mode
+    volumes:
+      - ./notebooks:/home/divij/work/notebooks # Mount your local notebooks folder
+      - ./data:/home/divij/work/data         # Mount your local data folder
+      - ./src:/home/divij/work/src           # Optional: for Python scripts/modules
+      - ./output:/home/divij/work/output # Optional: for output data
+    environment:
+      # These are often picked up automatically by the jupyter/pyspark-notebook image
+      # but can be explicitly set if you need specific Spark configurations.
+      # For example, to control memory:
+      # SPARK_DRIVER_MEMORY: "4g"
+      # SPARK_EXECUTOR_MEMORY: "4g"
+      # SPARK_WORKER_CORES: "4" # Or use local[*] in your code
+      JUPYTER_ENABLE_LAB: "yes" # Use Jupyter Lab instead of classic notebook
+    # If you want to use the Spark Master/Worker cluster model (more advanced)
+    # entrypoint: ["/bin/bash", "-c", "start-all.sh && tail -f /dev/null"] # Or your custom entrypoint
