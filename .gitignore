@@ -1,7 +1,7 @@
 __pycache__/
 *.py[cod]
-.venv/
 .env
 data/
 output/
+src/.ipynb_checkpoints/
 spark_venv/
